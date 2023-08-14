@@ -1,0 +1,13 @@
+# Exclude version control directories
+.git/
+.gitignore
+
+# Exclude IDE-specific files
+.idea/
+
+# Exclude temporary or cache files
+*.log
+*.tmp
+
+# Exclude test files and directories
+src/test/
