@@ -1,0 +1,26 @@
+# Stage 1: Build the application using Maven
+FROM maven:3.8.4 AS builder
+
+LABEL maintainer="nemeth.rudolf@gmail.com"
+
+WORKDIR /app
+
+# Copy the Maven project files
+COPY pom.xml .
+COPY src ./src
+
+# Build the application
+RUN mvn clean package
+
+# Stage 2: Create a smaller runtime image
+FROM openjdk:11-jre-slim
+
+EXPOSE 8080
+
+WORKDIR /app
+
+# Copy the JAR file built in Stage 1 to Stage 2
+COPY --from=builder /app/target/spring-boot-docker.jar .
+
+# Define the entry point for running your application
+CMD ["java", "-jar", "spring-boot-docker.jar"]
